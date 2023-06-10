@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mentos/main.dart';
 import 'package:mentos/navigation_screen.dart';
 
 class Post1 {
