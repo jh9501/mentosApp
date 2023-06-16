@@ -4,9 +4,10 @@ import 'package:mentos/page/main_heart.dart';
 import 'package:mentos/page/main_study.dart';
 import 'package:mentos/page/login_page.dart';
 
+import 'package:mentos/main.dart';
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
-
+  
   @override
   State createState() => _MainPageState();
 }
@@ -62,7 +63,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       showSelectedLabels: true,
       onTap: (int index) {
         setState(() {
-          if (index == 3) {
+          if (index == 0){
+            
+            controller!.animateTo(index);
+          }
+          else if (index == 3) {
             _showLogoutConfirmationDialog(); // 로그아웃 아이콘 클릭 시 로그아웃 확인 대화상자 표시
           } else {
             controller!.animateTo(index);
@@ -119,6 +124,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => login_page()),
+                  
                 );
               },
               child: Text('예'),

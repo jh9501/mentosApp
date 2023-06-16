@@ -19,11 +19,11 @@ class MainScreen extends StatelessWidget {
   }
 
   static const List<String> postTitles = [
-    '공지사항 입니다!! 꼭 읽어주세요',
+    /*'공지사항 입니다!! 꼭 읽어주세요',
     '안녕하세요!!',
     'C언어 책 괜찮은거 있나요??',
     '포인터 관련해서 도와주실분 ㅠㅠ',
-    '방금 가입했어요 잘 부탁드립니다!!',
+    '방금 가입했어요 잘 부탁드립니다!!',*/
   ];
 
   void navigateToNextPage(BuildContext context) {

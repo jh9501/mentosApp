@@ -1,12 +1,16 @@
 // 로그인 페이지
 import 'package:flutter/material.dart';
+import 'package:mentos/page/main_home.dart';
 import 'package:mentos/page/signup_page.dart';
 import 'package:mentos/page/main_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mentos/main.dart';
+
 
 class login_page extends StatelessWidget {
-  final loginIdController = TextEditingController();  // loginIdController.text : 입력받은 ID 값
-  final loginPwController = TextEditingController();  // loginPwController.text : 입력받은 PW 값
-
+  //final loginIdController = TextEditingController();  // loginIdController.text : 입력받은 ID 값
+  //final loginPwController = TextEditingController();  // loginPwController.text : 입력받은 PW 값
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,11 +83,39 @@ class login_page extends StatelessWidget {
                   color: Colors.blueAccent,
                   elevation: 7.0,
                   child: InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final flaguser = FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(loginIdController.text); // 로그인 할 때, db에 사용자가 입력한 id가 있는지
+
+                      final snapshot = await flaguser.get(); // 검색 정보 가져오기
+
+                      final db_id = snapshot.data()!['userid']; // db 안의 id
+                      final db_password = snapshot.data()!['userpassword']; // db 안의 pw
+                     
+                      //debugPrint("id = ${loginIdController.text}");
+                      //debugPrint("password = ${loginPwController.text}");
+                      //debugPrint("id = $db_id");
+                      //debugPrint("password = $db_password");
+                      
+                      if (db_id == loginIdController.text &&
+                          db_password == loginPwController.text) { // db에 저장된 정보 와 입력한 정보가 같은 경우
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("로그인 성공"),
+                        ));
+
+                        await Navigator.push(  // 로그인 후 메인페이지로 이동
                         context,
                         MaterialPageRoute(builder: (context) => MainPage()),
                       );
+
+
+                      } else { // 사용자가 잘못된 정보로 로그일 할 경우
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("로그인 실패"),
+                        ));
+                      }
+                      
                     },  // 로그인 버튼 눌렀을 때 실행될 함수
                     child: Center(
                       child: Text(
